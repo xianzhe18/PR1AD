@@ -1,0 +1,532 @@
+{% load static %}
+<html>
+    <head>
+        <title>PR1AD</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu&family=Dancing+Script:wght@300&display=swap" rel="stylesheet">
+        <style>
+            body{
+                background: white;
+                font-family: 'Ubuntu' !important;
+                width: 100%;
+                height: 100%;
+            }
+            .nav-item, a{
+                font-weight: bolder;
+                padding: 10px 30px 10px 30px;  
+            }
+            .nav-item, a:hover{
+                transition: ease 0.5s;
+                color: rgb(0, 0, 0) !important;
+            }
+            .text-white{
+                color: white;
+            }
+            .text-black{
+                color: black;
+            }
+            @media(max-width: 790px){
+                .head1{
+                    font-size: 3rem !important;
+                }
+                .hr-mobile{
+                    display: none;
+                }
+                .navbar-brand{
+                    display: block;
+                }
+                .data_field{
+                    border: none !important;
+                }
+                .navbar-collapse{
+                    background-color: darkviolet ;
+                    border-radius: 0px 10px 0px 10px;
+                }
+                .header_part{
+                    background-size: 220rem !important;
+                    background-position: bottom  !important;
+                    padding-top: 40px !important;
+                }
+                .nav-item{
+                    border-bottom: 1.5px solid rgb(255, 255, 255);
+                }
+            }
+            
+            table, td{
+                width: 100px;
+                border: none !important;
+            }
+            html{
+                scroll-behavior: smooth;
+            }
+        </style>
+    </head>
+    <style>
+        .select1:hover{
+            transition: ease 1s;
+            border: none !important;
+            background-color: rgb(241, 241, 241);
+        }
+        .select2:hover{
+            transition: ease 1s;
+            border: none !important;
+            background-color: rgb(241, 241, 241);
+        }
+        @media(max-width: 1200px){
+            .ads_box{
+                top: 180px !important;
+                padding: 10px 100px 10px 100px !important;
+            }
+        }
+        @media(max-width: 995px){
+            .ads_box{
+                top: 140px !important;
+                padding: 0px 60px 0px 60px !important;
+            }
+        }
+        @media(max-width:730px){
+            .ads_box{
+                top: 140px !important;
+                padding: 0px 70px 0px 70px !important;
+            }
+            .google_ads_txt{
+                font-size: 1rem !important;
+            }
+            .ads_box_con{
+                display: none !important;
+            }
+        }
+        a:hover{
+            text-decoration: none;
+        }
+    </style>
+    <body>
+        <nav class="col-md-12 navbar navbar-expand-lg" style="background: blue; z-index: 3;">
+            <button class="navbar-toggler" type="button" style="border: none; outline: none;" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span style="color: white; padding-top: 5px; z-index: 4;" class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mx-auto text-center">
+                <li class="nav-item">
+                  <a style="color: white;" class="nav-link" href="{% url 'home' %}">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a style="color: white;" class="nav-link" href="{% url 'about' %}">COMPANY</a>
+                </li>
+                <li class="nav-item">
+                    <a style="color: white;" class="nav-link" href="{% url 'contact' %}">CONTACT US</a>
+                </li>
+              </ul>
+            </div>
+        </nav><Br>
+        <div class="container">
+            <div class="mx-auto text-center" style="padding: 30px;">
+                <!-- <h1><a style="font-weight: 500; color: black;" href="{% url 'home' %}">Dashboard</a></h1> -->
+                <!-- <hr> -->
+                <div class="apply_menu mx-auto text-center">
+                    <h4>Get Ads On Your Video Now</h4><Br>
+                    <button class="apply_btn btn btn-primary">Apply Here</button>
+                </div>
+            </div><Br><Br>
+            <div class="col-md-12 your_campaigns mx-auto text-center">
+                {% if campaigns %}
+                    <div class="table-responsive mx-auto text-center">
+                        <table class="table mx-auto text-center">
+                            <tr>
+                                <td><h5><b>Campaign Name</b></h5></td>
+                                <td>
+                                    <h5><b>Status</b></h5>
+                                </td>
+                            </tr>
+                            {% for c in campaigns %}
+                            <tr>
+                                <td><a href="{% url 'adwords:campaign_details' c_id=c.model_id %}">{{ c.campaigns_name }}</a></td>
+                                <td>
+                                    {% if c.approved == 1 %}
+                                        <span style="color: green;">Approved</span>
+                                    {% elif c.pause == 1 %}
+                                        <span style="color: red;">Paused</span>
+                                    {% else %}
+                                        <span style="color: red;">Pending</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% else %}
+                    
+                {% endif %}
+            </div>
+            <div class="ads_form mx-auto text-center" style="display: none;">
+                <h4 id="show_errors" style="color: red; font-weight: bolder;"></h4>
+                <form method="post" class="col-md-12 form mr-auto text-left">{% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Campaign Name</label>
+                        <input value="{{model.campaigns_name}}" required id="campaign_name" 
+                        name="campaign_name" 
+                        
+                        type="text" class="form-control" placeholder="Campaign name">
+                    </div><br>
+                    <div class="mr-auto">
+                        <label for="strategy">Bidding Strategy</label>
+                        <select id="strategy" 
+                        name="strategy" required class="custom-select bidding-strategy">
+
+                            <option selected value="Maximum CPV">Maximum CPV</option>
+                            <option value="Target CPM">Target CPM</option>
+                        </select>
+                    </div><Br>
+                    <div class="mr-auto">
+                        <label for="budgetdates">Enter budget type and amount</label>
+                        <select onchange="budget_data();" 
+                        name="budgetdates" required
+
+                         id="budgetdates" class="custom-select budget_dates">
+                            <option selected value="Daily">Daily</option>
+                            <option value="Campaign total">Campaign total</option>
+                        </select>
+                    </div><Br>
+                        <div class="col-md-12 start_end_form" style="display: none;">
+                            <div class="row">
+                                <div class="start" style="margin-left: 15px;">
+                                    <label for="start">Start Date</label>
+                                    <input 
+                                    name="startdate"
+                                     id="startdate" type="date" class="form-control"><Br>
+                                </div>
+                                <div class="end" style="margin-left: 15px;">
+                                    <label for="end">End Date</label>
+                                    <input 
+                                    name="enddate"
+                                    id="enddate" type="date" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(function(){
+                                var today = new Date();
+                                $('#start').val(today.toISOString().substr(0, 10));
+                                $('#end').val(today.toISOString().substr(0, 10));
+                            });
+                        </script>
+                    <div class="mr-auto">
+                        <label for="networks">Networks</label><br>
+                        <div class="checkbox_con" style="margin-left: 15px;">
+                            <div class="form-check form-check-inline">
+                                <input 
+                                name="search_results" 
+                                class="form-check-input" type="checkbox" id="search_results" value="0">
+                                <label class="form-check-label" for="search_results">Youtube search results</label>
+                            </div><br><br>
+                            <div class="form-check form-check-inline">
+                                <input
+                                name="youtube_videos"  
+                                class="form-check-input" type="checkbox" id="youtube_videos" value="1" checked disabled>
+                                <label class="form-check-label" for="youtube_videos">Youtube Videos</label>
+                            </div><br><br>
+                            <div class="form-check form-check-inline">
+                                <input
+                                name="video_partners"  
+                                 class="form-check-input" type="checkbox" id="video_partners" value="1" checked>
+                                <label class="form-check-label" for="video_partners">Video partners</label>
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="form-group">
+                        <label for="languages">Languages</label>
+                        <div class="all_lang col-md-3">
+                            <p style="padding: 10px 20px 10px 20px; border-radius: 40px; background-color: rgb(224, 224, 224);"
+                            >All Languages</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="locations">Locations</label>
+                        <div class="all_lang col-md-3">
+                            <p style="padding: 10px 10px 10px 15px; border-radius: 40px; background-color: rgb(224, 224, 224);">
+                                All countries and territories</p>
+                        </div>
+                    </div><Br>
+                    <div class="mr-auto">
+                        <label for="inventory">Inventory Types (Select any for more details)</label>
+                        <div class="row" style="padding: 5px;">
+                            <div class="col-md-5 inventory_checkbox_con">
+                                <div class="form-check form-check-inline">
+                                    <input
+                                    name="expanded"
+                                     onclick="inventory_data('expanded', this);" class="form-check-input inv" type="checkbox" id="expanded" value="0">
+                                    <label class="form-check-label" for="expanded">Expanded Inventory</label>
+                                </div><br><br>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                    name="standard"
+                                     onclick="inventory_data('standard', this);" class="form-check-input inv" type="checkbox" id="standard" value="0">
+                                    <label class="form-check-label" for="standard">Standard Inventory</label>
+                                </div><br><br>
+                                <div class="form-check form-check-inline">
+                                    <input
+                                    name="limited"
+                                     onclick="inventory_data('limited', this);" class="form-check-input inv" type="checkbox" id="limited" value="0">
+                                    <label class="form-check-label" for="limited">Limited Inventory</label>
+                                </div>
+                            </div><Br>
+                            <div class="col-md-7 inventory_details_con" style="">
+                                <div class="standard inventory_datas" style="display: none;">
+                                    <p class="standard" style="font-weight: bolder;">Show ads on content that’s appropriate for most brands</p>
+                                        <p style="line-height: 1rem;">
+                                            Same exclusions as Expanded, and also excludes, for example:<Br>
+                                        <li style="margin-left: 10px; list-style: none;">Repeated strong profanity</li>
+                                        <li style="margin-left: 10px; list-style: none;">Strong sexual content and discussions of sex</li>
+                                        <li style="margin-left: 10px; list-style: none;">Violence either real or dramatized</li>
+                                    </p>
+                                </div>
+                                <div class="expanded inventory_datas" style="display: none;">
+                                    <p class="expanded" style="font-weight: bolder;">Exclude most types of sensitive content and limit your available inventory</p>
+                                        <p style="line-height: 1rem;">Same exclusions as Expanded and Standard, and also excludes, for example:<Br>
+                                        <li style="margin-left: 10px;list-style: none;">Moderate profanity</li>
+                                        <li style="margin-left: 10px;list-style: none;">Moderate sexually suggestive content</li>
+                                    </p>
+                                </div>
+                                <div class="limited inventory_datas" style="display: none;">
+                                    <p class="limited" style="font-weight: bolder;">Maximize available inventory by showing ads on some sensitive content</p>
+                                        <p style="line-height: 1rem;">
+                                            Excludes extremely sensitive content, for example:<Br>
+                                        <li style="margin-left: 10px; list-style: none;">Excessive profanity</li>
+                                        <li style="margin-left: 10px; list-style: none;">Graphic sexual content and nudity</li>
+                                        <li style="margin-left: 10px; list-style: none;">Graphic violence and serious injury</li>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="ad-group">
+                        <h4>Create your ad group</h4><br>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ad_name">Ad group name</label>
+                                <input id="ad_name"
+                                name="ads_groupname"
+                                 type="text" class="form-control" placeholder="Ad group name">
+                            </div><br>
+                            <div class="form-group">
+                                <label for="demographics">Demographics</label>
+                                <div class="demo_graphics col-md-6">
+                                    <span style="padding: 10px; border-radius: 40px; line-height: 1rem; background-color: rgb(224, 224, 224);">
+                                        Any age, Any gender, Any parental status, Any household income</span>
+                                </div>
+                            </div><br>
+                            <div class="form-group">
+                                <label for="Audiences">Audiences</label>
+                                <div class="demo_graphics col-md-3">
+                                    <span style="padding: 10px; border-radius: 40px; background-color: rgb(224, 224, 224);">
+                                        Any audience</span>
+                                </div>
+                            </div><br>
+                            <div class="form-group">
+                                <label for="keywords">Keywords</label>
+                                <div class="demo_graphics col-md-6">
+                                    <span style="padding: 10px; border-radius: 40px; background-color: rgb(224, 224, 224);">
+                                        Any keyword</span>
+                                </div><br>
+                                <span onclick="keywords();" style="cursor: pointer; font-weight: 900; color: blue;">Click here to add your keywords (Use Spaces Instead Of Commas)</span>
+                                <textarea 
+                                name="keywords"
+                                class="col-md-6 form-control" style="display: none;" id="keywords" rows="5" placeholder="Paste your keywords here or leave blank"></textarea>
+                            </div><br>
+                            <div class="form-group">
+                                <label for="Topics">Topics</label>
+                                <div class="demo_graphics col-md-3">
+                                    <span style="padding: 10px; border-radius: 40px; background-color: rgb(224, 224, 224);">
+                                        Any topic</span>
+                                </div>
+                            </div><br>
+                            <div class="form-group">
+                                <label for="Placements">Placements</label>
+                                <div class="demo_graphics col-md-3">
+                                    <span style="padding: 10px; border-radius: 40px; background-color: rgb(224, 224, 224);">
+                                        Any Placement</span>
+                                </div>
+                            </div><br>
+                            <div class="form-group">
+                                <label>Maximum CPV bid</label>
+                                <input
+                                name="cpv_bid" id="cpv_bid"
+                                 type="number" class="form-control col-md-3" placeholder="CPV (cost per view)">
+                            </div>
+                            <div class="form-group">
+                                <label>Create your video ad</label>
+                                <input
+                                 name="video_url" id="video_url"
+                                type="url" class="form-control" placeholder="Your youtube video url">
+                            </div>
+                            <div class="col-md-5 inventory_checkbox_con">
+                                <div class="form-check form-check-inline">
+                                    <input
+                                    name="instream_ads"
+                                     onclick="ads_format('instream', this);" class="form-check-input formats" type="checkbox" id="instream" value="0">
+                                    <label class="form-check-label" for="instream">Skippable in-stream ad</label>
+                                </div><br><br>
+                                <div class="form-check form-check-inline">
+                                    <input 
+                                    name="discovery_ads"
+                                    onclick="ads_format('discovery', this);" class="form-check-input formats" type="checkbox" id="discovery" value="0">
+                                    <label class="form-check-label" for="discovery">Video discovery ad</label>
+                                </div><br><br>
+                            </div><Br>
+                        </div>
+                    </div>
+                    <div class="captcha-field1">
+
+                    </div>
+                    <div class="mx-auto text-center">
+                        <!-- <button type="submit" disabled=True class="create_btn btn btn-primary" style="color: white;">CREATE CAMPAIGN</button> -->
+                        <button type="submit" class="create_btn btn btn-primary" style="color: white;">CREATE CAMPAIGN</button>
+                        <a href="">Cancel</a>
+                    </div>
+                    <br><Br>    
+                </form>
+            </div>
+            {% if model %}
+                <script>
+                    $(document).ready(function(){
+                        $('.apply_menu').hide();
+                        $('.your_campaigns').hide();
+
+                        $('.ads_form').fadeIn();
+                        $('.create_btn').html('Update Campaign');
+                    });
+                </script>
+            {% endif %}
+        </div><br><B(r><Br>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <!---for recaptcha uncomments this and make the submit button disabled and add g-recaptcha-response to ajax-->
+        <!-- <script src="https://www.google.com/recaptcha/api.js?render=public_key"></script> -->
+        <!-- <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('public_key', {action: 'create'}).then(function(token) {
+                $('.captcha-field1').append("<input style='display: none;' type='text' id='g_recaptcha_response' value="+ token +" name='g-recaptcha-response'/>");
+                $('.create_btn').prop('disabled', false);
+            });
+        });
+        var g_recaptcha_response: $('.g_recaptcha_response').val(),
+        </script> -->
+        <script>
+            $('.form').on("submit", function(e){
+                e.preventDefault();
+                var model_id = "{{ model_id }}";
+                if (model_id !== ''){
+                    
+                }
+                else{
+                    var model_id = null;
+                }
+                $.ajax({
+                    url: "{% url 'adwords:create_campaign' %}",
+                    data: {
+                        model_id: model_id,
+                        campaign_name: $('#campaign_name').val(),
+                        strategy: $('#strategy').val(),
+                        budgetdates: $('#budgetdates').val(),
+                        startdate: $('#startdate').val(),
+                        enddate: $('#enddate').val(),
+                        search_results: $('#search_results').val(),
+                        youtube_videos: $('#youtube_videos').val(),
+                        video_partners: $('#video_partners').val(),
+                        expanded: $('#expanded').val(),
+                        standard: $('#standard').val(),
+                        limited: $('#limited').val(),
+                        ad_name: $('#ad_name').val(),
+                        keywords: $('#keywords').val(),
+                        cpv_bid: $('#cpv_bid').val(),
+                        video_url: $('#video_url').val(),
+                        instream: $('#instream').val(),
+                        discovery: $('#discovery').val(),
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    method: 'POST',
+                    success: function(data){
+                        window.scrollTo(0, 100);
+                        $('#show_errors').html(' ');
+                        if (data === 'error-blocklist'){
+                            $('#show_errors').html('Your video is in our Blocklist !!!')
+                        }
+                        else if(data === 'error-whitelist'){
+                            $('#show_errors').html('Your vidoe is not in out Whitelist !!!')
+                        }
+                        else if(data === 'error-keywords'){
+                            $('#show_errors').html('Your keywords are banned !!!')
+                        }
+                        else if(data === 'error-captcha'){
+                            $('#show_errors').html('Captcha Error Please Try Again !!!')
+                        }
+                        else{
+                            window.location.replace("{% url 'adwords:index' %}");
+                        }
+                    }
+                });
+            });
+            function ads_format(txt, ele){
+                $('.formats').prop("checked", false);
+                if (txt == 'instream'){
+                    $('#instream').prop("checked", true);
+                    $('#instream').val(1);
+                }
+                else{
+                    $('#discovery').prop("checked", true);
+                    $('#discovery').val(1);
+                }
+            }
+            function keywords(){
+                $('#keywords').fadeIn();
+            }
+            function inventory_data(txt, ele){
+                $('.inventory_datas').hide();
+                $('.inv').prop("checked", false);
+                $(ele).val(1);
+                $(ele).prop("checked", true);
+                if (txt == 'standard'){
+                    $('.standard').fadeIn();
+                }
+                else if(txt == 'expanded'){
+                    $('.expanded').fadeIn();
+                }
+                else{
+                    $('.limited').fadeIn();
+                }
+
+            }
+            $('.apply_btn').click(function(){
+                $('.apply_menu').hide();
+                $('.your_campaigns').hide();
+
+                $('.ads_form').fadeIn();
+            });
+            function budget_data(){
+                var value = $('#budgetdates').val();
+                if (value == 'Daily'){
+                    $('.start_end_form').fadeOut();
+                }else{
+                    $('.start_end_form').fadeIn();
+                }
+            }
+            $('input[type="checkbox"]').click(function(){
+                if($(this).prop("checked") == true){
+                    $(this).val(1);
+                }
+                else if($(this).prop("checked") == false){
+                    $(this).val(0);
+                }
+            });
+        </script>
+        <div class="footer container mx-auto text-center" style="right: 0; left: 0; bottom: 0; position: relative;">
+            <hr>
+            <p>Copyright  &copy;  2020 PR1AD.com | Powered by Perfection</p>
+         </div>
+    </body>
+</html>

@@ -1,0 +1,112 @@
+{% load static %}
+<html>
+    <head>
+        <title>PR1AD</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu&family=Dancing+Script:wght@300&display=swap" rel="stylesheet">
+        <style>
+            a{
+                text-decoration: none;
+            }
+            a:hover{
+                text-decoration: none;
+            }
+            body{
+                background: white;
+                font-family: 'Ubuntu' !important;
+                width: 100%;
+                height: 100%;
+            }
+            .nav-item, a{
+                font-weight: bolder;
+                padding: 10px 30px 10px 30px;  
+            }
+            .nav-item, a:hover{
+                transition: ease 0.5s;
+                color: rgb(0, 0, 0) !important;
+            }
+            .text-white{
+                color: white;
+            }
+            .text-black{
+                color: black;
+            }
+            @media(max-width: 790px){
+                .head1{
+                    font-size: 3rem !important;
+                }
+                .hr-mobile{
+                    display: none;
+                }
+                .navbar-brand{
+                    display: block;
+                }
+                .data_field{
+                    border: none !important;
+                }
+                .navbar-collapse{
+                    background-color: darkviolet ;
+                    border-radius: 0px 10px 0px 10px;
+                }
+                .header_part{
+                    background-size: 220rem !important;
+                    background-position: bottom  !important;
+                    padding-top: 40px !important;
+                }
+                .nav-item{
+                    border-bottom: 1.5px solid rgb(255, 255, 255);
+                }
+            }
+           
+            html{
+                scroll-behavior: smooth;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="col-md-12 navbar navbar-expand-lg" style="background: blue; z-index: 2000;">
+            <button class="navbar-toggler" type="button" style="border: none; outline: none;" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <!-- <span class="navbar-toggler-icon"></span> -->
+              <i style="color: white; padding-top: 5px;" class="fas fa-bars"></i>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mx-auto text-center">
+                <li class="nav-item">
+                  <a style="color: white;" class="nav-link" href="{% url 'home' %}">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a style="color: white;" class="nav-link" href="{% url 'about' %}">COMPANY</a>
+                </li>
+                <li class="nav-item">
+                    <a style="color: white;" class="nav-link" href="{% url 'contact' %}">CONTACT US</a>
+                </li>
+              </ul>
+            </div>
+        </nav><Br>
+            <div class="container mx-auto text-center">
+                    <div class="table-responsive mx-auto text-center">
+                        <table class="table mx-auto text-center">
+                            <tr>
+                                <td><b>CPM</b></td>
+                                <td><b>{{ cpm }}</b></td>
+                            </tr>
+                            <tr>
+                                <td><b>CPV</b></td>
+                                <td><b>{{ cpv }}</b></td>
+                            </tr>
+                        </table>
+                    </div>
+            </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <div class="footer container mx-auto text-center" style="right: 0; left: 0; bottom: 0; position: absolute;">
+            <hr>
+            <p>Copyright  &copy;  2020 PR1AD.com | Powered by Perfection</p>
+         </div>
+    </body>
+</html>

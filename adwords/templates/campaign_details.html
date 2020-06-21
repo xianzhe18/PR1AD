@@ -1,0 +1,232 @@
+{% load static %}
+<html>
+    <head>
+        <title>PR1AD</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu&family=Dancing+Script:wght@300&display=swap" rel="stylesheet">
+        <style>
+            a:hover{
+                text-decoration: none;
+            }
+            body{
+                background: white;
+                font-family: 'Ubuntu' !important;
+                width: 100%;
+                height: 100%;
+            }
+            .nav-item, a{
+                font-weight: bolder;
+                padding: 10px 30px 10px 30px;   
+            }
+            .nav-item, a:hover{
+                transition: ease 0.5s;
+                color: rgb(0, 0, 0) !important;
+            }
+            .text-white{
+                color: white;
+            }
+            .text-black{
+                color: black;
+            }
+            @media(max-width: 790px){
+                .head1{
+                    font-size: 3rem !important;
+                }
+                .hr-mobile{
+                    display: none;
+                }
+                .navbar-brand{
+                    display: block;
+                }
+                .data_field{
+                    border: none !important;
+                }
+                .navbar-collapse{
+                    background-color: darkviolet ;
+                    border-radius: 0px 10px 0px 10px;
+                }
+                .header_part{
+                    background-size: 220rem !important;
+                    background-position: bottom  !important;
+                    padding-top: 40px !important;
+                }
+                .nav-item{
+                    border-bottom: 1.5px solid rgb(255, 255, 255);
+                }
+            }
+            
+            table, td{
+                width: 100px;
+                border: none !important;
+            }
+            html{
+                scroll-behavior: smooth;
+            }
+        </style>
+    </head>
+    <style>
+        .select1:hover{
+            transition: ease 1s;
+            border: none !important;
+            background-color: rgb(241, 241, 241);
+        }
+        .select2:hover{
+            transition: ease 1s;
+            border: none !important;
+            background-color: rgb(241, 241, 241);
+        }
+        a:hover{
+            text-decoration: none;
+        }
+    </style>
+    <body>
+        <nav class="col-md-12 navbar navbar-expand-lg" style="background: blue; z-index: 2000;">
+            <button class="navbar-toggler" type="button" style="border: none; outline: none;" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <!-- <span class="navbar-toggler-icon"></span> -->
+              <i style="color: white; padding-top: 5px;" class="fas fa-bars"></i>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mx-auto text-center">
+                <li class="nav-item">
+                  <a style="color: white;" class="nav-link" href="{% url 'home' %}">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a style="color: white;" class="nav-link" href="{% url 'about' %}">COMPANY</a>
+                </li>
+                <li class="nav-item">
+                    <a style="color: white;" class="nav-link" href="{% url 'contact' %}">CONTACT US</a>
+                </li>
+              </ul>
+            </div>
+        </nav><Br>
+        <div class="container">
+            <div class="mx-auto text-center" style="padding: 30px;">
+                <h1><a style="font-weight: 500; color: black;" href="{% url 'home' %}">Campaign Details</a></h1>
+                <hr>
+                {% if e %}
+                    <p>{{ e }}</p>
+                {% endif %}
+                <div class="campaigns mr-auto text-left">
+                    <div class="row">
+                        <div class="table_responsive" style="width: 70%;">
+                            <form class="form">
+                                <table class="table">
+                                    {% if c %}
+                                    <tr>
+                                        <td><p>Campaign Name:</p></td>
+                                        <td><b>{{ c.campaigns_name }}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Biddign Strategy:</p></td>
+                                        <td><b>{{ c.bidding_strategy }}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Budget Type :</p></td>
+                                        <td><b>{{ c.budget_type }}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Start Date :</p></td>
+                                        <td><b><time>{{ c.start_date }}</time></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>End Date :</p></td>
+                                        <td><b><time>{{ c.end_date }}</time></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Networks :</p></td>
+                                        <td><b>
+                                            {% ifequal 1 c.youtube_search_results %}
+                                                Youtube Search Results,
+                                                {% ifequal 1 c.video_partners %}
+                                                    Video Partners,
+                                                {% endifequal %}
+                                            {% else %}
+                                                {% ifequal 1 c.video_partners %}
+                                                    Video Partners,
+                                                    {% ifequal 1 c.youtube_search_results %}
+                                                        Youtube Search Results,
+                                                    {% endifequal %}
+                                                {% endifequal %}
+                                            {% endifequal %}
+                                            Youtube Videos
+                                        </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Inventory Types :</p></td>
+                                        <td><b><time>{{ c.inventory_types }}</time></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Ad Group Name :</p></td>
+                                        <td><b><time>{{ c.ad_group_name }}</time></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Keywords :</p></td>
+                                        <td><b><time>{{ c.keywords }}</time></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>CPV Bid :</p></td>
+                                        <td><b><time>{{ c.cpv_bid }}</time></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Video URL :</p></td>
+                                        <td><b><time>{{ c.url }}</time></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Ads Format :</p></td>
+                                        <td><b><time>{{ c.ads_format }}</time></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><p>Status :</p></td>
+                                        <td>
+                                            {% if c.approved == 1 %}
+                                                <b style="color: green;">Active</b>
+                                            {% elif c.update_pending == 1 %}
+                                                <b style="color: red;">Update In Progress</b>
+                                            {% else %}
+                                                <b style="color: red;">Not Active</b>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                    {% if user.is_superuser %}
+                        {% if c.approved == 1 %}
+                            
+                        {% else %}
+                        <button class="approved_btn btn btn-primary" style="color: white; font-weight: bolder;"><a>Approve</a></button>
+                        {% endif %}
+                        {% if c.pause == 1 %}
+                            <button class="enable_btn btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:enable_campaign' c_id=c.model_id %}">Enable</a></button>
+                        {% else %}
+                            <button class="pause_btn btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:pause_campaign' c_id=c.model_id %}">Pause</a></button>
+                        {% endif %}
+                        <button class="delete_btn btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:delete_campaign' c_id=c.model_id  %}">Delete</a></button>
+                        <button class="edit btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:edit_campaign' c_id=c.model_id %}">Edit</a></button>
+                        <button class="edit btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:reports' c_id=c.model_id %}">Reports</a></button>
+                    {% else %}
+                    <button class="edit btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:edit_campaign' c_id=c.model_id %}">Edit Campaign</a></button>
+                    {% endif %}
+                </div>
+                <br><br><br>
+            </div>
+        </div>
+    </body>
+    <script>
+        $('.approved_btn').click(function(){
+            window.location.href ="{% url 'adwords:approve_campaigns' c_id=c.model_id %}"
+        });
+    </script>
+    <div class="footer container mx-auto text-center" style="right: 0; left: 0; bottom: 0; position: relative;">
+        <hr>
+        <p>Copyright  &copy;  2020 PR1AD.com | Powered by Perfection</p>
+     </div>
+    {% endif %}
+</html>

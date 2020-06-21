@@ -1,0 +1,103 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<h2>{{ title }}.</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            <form action="." method="post" class="form-horizontal">
+                {% csrf_token %}
+                <h3>Enter your credentials to login</h3>
+                <hr />
+                <div class="form-group">
+                    <label for="id_username" class="col-md-2 control-label">User name</label>
+                    <div class="col-md-10">
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password" class="col-md-2 control-label">Password</label>
+                    <div class="col-md-10">
+                        {{ form.password }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="hidden" name="next" value="/" />
+                        <input type="submit" value="Log in" class="login-btn btn btn-default" />
+                    </div>
+                </div>
+                <div class="border-top pt-3">
+                    <small class="text-muted">
+{#                        Need an account? <a class="ml-2" href="{% url 'register' %}">Register</a>#}
+                    </small>
+                </div>
+                {% if form.errors %}
+                <script>
+                    $(document).ready(function(){
+                        if(!!$.cookie('value')){
+                            var c = parseInt($.cookie('value'));
+                            if ( c === 4 ){
+                                var username = $('#id_username').val();
+                                $.cookie("username", username);
+                                var date = new Date();
+                                var minutes = 30;
+                                date.setTime(date.getTime() + (minutes * 60 * 1000));
+                                $.cookie("acc_locked", c, { expires: date });
+                                $('.id_locked').fadeIn();
+                                $('.validation-summary-errors').hide();
+                                $('.login-btn').prop("disabled", true);
+                            }
+                            else{
+                                console.log("out"+c);
+                                $.cookie('value', parseInt(c)+1);    
+                            }
+                        }
+                        else{
+                            $.cookie('value', 1);
+                        }
+                    });
+                </script>
+                <div class="id_locked" style="display: none;">
+                    <p style="color: red; font-weight: bolder;" class="validation-summary-errors2">You're ID has been locked for 30 mins. Try Again Later...</p>
+                </div>
+                <p class="validation-summary-errors">Please enter a correct user name and password.</p>
+                {% endif %}
+            </form>
+        </section>
+    </div>
+
+    <div class="col-md-4">
+        <section id="socialLoginForm"></section>
+    </div>
+</div>
+<script>
+    $('#id_password').change(function(){
+        var username = $('#id_username').val();
+        if (username === $.cookie('username')){
+            $('.login-btn').prop("disabled", true);
+        }
+        else{
+            $('.login-btn').prop("disabled", false);
+        }
+    });
+    $(document).ready(function(){
+        if(!!$.cookie('acc_locked')){
+            $('.login-btn').prop("disabled", true);
+        }
+        else{
+            $('.login-btn').prop("disabled", false);
+        }
+    });
+</script>
+{% endblock %}
+
+
+{% block scripts %}
+
+    {% load staticfiles %}
+<script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+
+{% endblock %}
