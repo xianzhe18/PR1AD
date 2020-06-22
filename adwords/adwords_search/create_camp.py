@@ -18,6 +18,7 @@ import google.ads.google_ads.client
 from adwords import models
 from google.api_core import protobuf_helpers
 from adwords.add_keywords import add_keywords
+
 _DATE_FORMAT = '%Y%m%d'
 
 def create_camp(data):
@@ -64,10 +65,10 @@ def create_camp(data):
         campaign_budget_response.results[0].resource_name)
 
     # Set the campaign network options.
-    campaign.network_settings.target_google_search.value = True
+    campaign.network_settings.target_google_search.value = False
     campaign.network_settings.target_search_network.value = True
     campaign.network_settings.target_content_network.value = False
-    campaign.network_settings.target_partner_search_network.value = False
+    campaign.network_settings.target_partner_search_network.value = True
 
     # Optional: Set the start date.
     start_time = datetime.date.today() + datetime.timedelta(days=1)
@@ -98,10 +99,8 @@ def create_camp(data):
             if error.location:
                 for field_path_element in error.location.field_path_elements:
                     print('\t\tOn field: %s' % field_path_element.field_name)
-    
-    # client = adwords_client()
+
     ad_group_service = client.get_service('AdGroupService', version='v3')
-    campaign_service = client.get_service('CampaignService', version='v3')
 
     # Create ad group.
     ad_group_operation = client.get_type('AdGroupOperation', version='v3')
@@ -112,9 +111,7 @@ def create_camp(data):
         customer_id, campaign_id)
     ad_group.type = client.get_type('AdGroupTypeEnum',
                                     version='v3').SEARCH_STANDARD
-    ad_group.cpc_bid_micros.value = 10000000
-
-    # Add the ad group.
+    ad_group.cpc_bid_micros.value = 10000000 #change this value ask to wang for this
     a = []
     try:
         ad_group_response = ad_group_service.mutate_ad_groups(

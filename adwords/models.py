@@ -23,8 +23,6 @@ class ads_percentage(models.Model):
 import datetime
 class campaign(models.Model):
     model_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    campaign_id = models.CharField(max_length=225, default=uuid.uuid4, editable=True)
-    ad_group_id = models.CharField(max_length=225, default=uuid.uuid4, editable=True)
     created_by = models.CharField(max_length=200)
     campaigns_name = models.CharField(max_length=224)
     bidding_strategy = models.CharField(max_length=224)

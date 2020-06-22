@@ -15,13 +15,8 @@ from django.core.exceptions import ObjectDoesNotExist
 import datetime
 
 from adwords.authenticate import authenticate
-from adwords.update_campaign import update_campaign
-from adwords.create_camp import create_camp
-from adwords.pause_campaign import pause_campaign
-from adwords.remove_campains import remove_campaigns
 from adwords.report_campaign import report_campaign
 from adwords.get_campaign import get_campaign
-from .enable_campaign import enable_campaign
 
 from django.views.decorators.clickjacking import xframe_options_exempt
 import uuid
@@ -31,7 +26,6 @@ GOOGLE_RECAPTCHA_SECRET_KEY = 'private-key'
 _DATE_FORMAT = '%Y%m%d'
 # from .get_campaign import get_campaign
 # get_campaign()
-
 
 def index(request):
     user = request.user.username
@@ -45,9 +39,13 @@ def approve_campaigns(request, c_id):
     try:
         m = models.campaign.objects.get(model_id=c_id)
         if m.update_pending == 1:
-            update_campaign(c_id)
+            m.update_pending = 0
+            m.pause = 0
+            m.approved = 1
         else:
-            create_camp(c_id)
+            m.approved = 1
+            m.pause = 0
+        m.save()
         return redirect('adwords:all_campaigns')
     except (ObjectDoesNotExist, EOFError):
         error = "Some Unknown Error Occured"
@@ -64,7 +62,10 @@ def campaign_details(request, c_id):
 
 def enable(request, c_id):
     try:
-        enable_campaign(c_id)
+        m = models.campaign.objects.get(model_id=c_id)
+        m.pause = 0
+        m.approved = 1
+        m.save()
         return redirect('adwords:index')
     except ObjectDoesNotExist:
         error = "This Campaign Does Not Exists"
@@ -90,11 +91,15 @@ def reports(request, c_id):
     return render(request, 'reports.html', data)
 
 def pause_campaigns(request, c_id):
-    pause_campaign(c_id)
+    m = models.campaign.objects.get(model_id=c_id)
+    m.pause = 1
+    m.approved = 0
+    m.save()
     return redirect('adwords:index')
 
 def delete_campaigns(request, c_id):
-    remove_campaigns(c_id)
+    c = models.campaign.objects.get(model_id=c_id)
+    c.delete()
     return redirect('adwords:index')
 
 def edit_campaigns(request, c_id):
