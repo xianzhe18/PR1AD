@@ -16,7 +16,7 @@ def get_campaign():
     # Issues a search request using streaming.
     response = ga_service.search_stream(customer_id, query=query)
     
-    campaign_id = ''
+    ads_model = ''
 
     try:
         for batch in response:
@@ -32,5 +32,5 @@ def get_campaign():
                 for field_path_element in error.location.field_path_elements:
                     print(f'\t\tOn field: {field_path_element.field_name}')
         sys.exit(1)
-    return campaign_id
+    return ads_model
     

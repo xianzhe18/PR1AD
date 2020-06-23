@@ -8,14 +8,14 @@ from adwords.get_client import get_client
 
 def remove_campaigns(data):
     c = models.campaign.objects.get(model_id=data)
-    campaign_id = c.campaign_id
+    ads_model = c.ads_model
     client = get_client()
     customer_id = '5397526643'
 
     campaign_service = client.get_service('CampaignService', version='v3')
     campaign_operation = client.get_type('CampaignOperation', version='v3')
 
-    resource_name = campaign_service.campaign_path(customer_id, campaign_id)
+    resource_name = campaign_service.campaign_path(customer_id, ads_model)
     campaign_operation.remove = resource_name
 
     try:

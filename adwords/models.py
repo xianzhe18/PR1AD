@@ -1,40 +1,29 @@
 from django.db import models
 import uuid
 
-class campaign_terms(models.Model):
+class restriction(models.Model):
     terms_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
 class block_channels(models.Model):
-    i_id = models.ForeignKey(campaign_terms, on_delete=models.CASCADE)
+    i_id = models.ForeignKey(restriction, on_delete=models.CASCADE)
     block_channels = models.CharField(max_length=100)
 
 class whitelist_channels(models.Model):
-    i_id = models.ForeignKey(campaign_terms, on_delete=models.CASCADE)
+    i_id = models.ForeignKey(restriction, on_delete=models.CASCADE)
     whitelist_channels = models.CharField(max_length=100)
 
 class banned_keywords(models.Model):
-    i_id = models.ForeignKey(campaign_terms, on_delete=models.CASCADE)
+    i_id = models.ForeignKey(restriction, on_delete=models.CASCADE)
     banned_keywords = models.CharField(max_length=100)
 
 class ads_percentage(models.Model):
-    i_id = models.ForeignKey(campaign_terms, on_delete=models.CASCADE)
+    i_id = models.ForeignKey(restriction, on_delete=models.CASCADE)
     ads_percentage = models.IntegerField()
 
 import datetime
-class campaign(models.Model):
+class ads_model(models.Model):
     model_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_by = models.CharField(max_length=200)
-    campaigns_name = models.CharField(max_length=224)
-    bidding_strategy = models.CharField(max_length=224)
-    budget_type = models.CharField(max_length=100)
-    start_date = models.DateField(default=datetime.date.today() + datetime.timedelta(days=30))
-    end_date = models.DateField(default=datetime.date.today() + datetime.timedelta(days=30))
-    youtube_search_results = models.IntegerField(default=0)
-    youtube_videos = models.IntegerField(default=0)
-    video_partners = models.IntegerField(default=0)
-    languages = models.CharField(max_length=200)
-    locations = models.CharField(max_length=200)
-    inventory_types = models.CharField(max_length=200)
     ad_group_name = models.CharField(max_length=200)
     demographics = models.CharField(max_length=200)
     audiences = models.CharField(max_length=200)
@@ -49,13 +38,10 @@ class campaign(models.Model):
     update_pending = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.campaigns_name
+        return self.ad_group_name
 
-class campaign_reports(models.Model):
-    link = models.OneToOneField(campaign, primary_key=True, on_delete=models.CASCADE)
+class ads_report(models.Model):
+    link = models.OneToOneField(ads_model, primary_key=True, on_delete=models.CASCADE)
     cpm = models.IntegerField(default=0)
     cpv = models.IntegerField(default=0)
-
-# campaigns show krwaoo or approved ka button ek def banaoo htpps repsone k sath
-# or dashbaord pe user ka banaya huaa campaigns deikhega or uska status or create button
-
+    cost = models.IntegerField(default=0)

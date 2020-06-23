@@ -15,9 +15,9 @@ class ads_percentage_Admin(admin.TabularInline):
     model = models.ads_percentage
 
 class reports_Admin(admin.TabularInline):
-    model = models.campaign_reports
+    model = models.ads_report
 
-@admin.register(models.campaign_terms)
+@admin.register(models.restriction)
 class competition_admin(admin.ModelAdmin):
     inlines = [
         block_channels_Admin,
@@ -26,8 +26,8 @@ class competition_admin(admin.ModelAdmin):
         ads_percentage_Admin
     ]
 
-@admin.register(models.campaign)
-class campaign_admin(admin.ModelAdmin):
+@admin.register(models.ads_model)
+class ads_model_admin(admin.ModelAdmin):
     inlines = [
         reports_Admin
     ]

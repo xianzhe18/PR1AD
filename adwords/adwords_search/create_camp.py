@@ -84,13 +84,13 @@ def create_camp(data):
         campaign.end_date.value = datetime.date.strftime(end_time, _DATE_FORMAT)
 
     # Add the campaign.
-    campaign_id = ''
+    ads_model = ''
     try:
         campaign_response = campaign_service.mutate_campaigns(
             customer_id, [campaign_operation])        
         cap = campaign_response.results[0].resource_name
         c = cap.split('/')
-        campaign_id = c[3]
+        ads_model = c[3]
     except google.ads.google_ads.errors.GoogleAdsException as ex:
         print('Request with ID "%s" failed with status "%s" and includes the '
               'following errors:' % (ex.request_id, ex.error.code().name))
@@ -108,7 +108,7 @@ def create_camp(data):
     ad_group.name.value = '{} {}'.format(campaign_details.ad_group_name, uuid.uuid4())
     ad_group.status = client.get_type('AdGroupStatusEnum', version='v3').ENABLED
     ad_group.campaign.value = campaign_service.campaign_path(
-        customer_id, campaign_id)
+        customer_id, ads_model)
     ad_group.type = client.get_type('AdGroupTypeEnum',
                                     version='v3').SEARCH_STANDARD
     ad_group.cpc_bid_micros.value = 10000000 #change this value ask to wang for this
@@ -130,7 +130,7 @@ def create_camp(data):
 
     print('Created ad group %s.' % ad_group_response.results[0].resource_name)
         
-    campaign_details.campaign_id = campaign_id
+    campaign_details.ads_model = ads_model
     campaign_details.ad_group_id = a[3]
     campaign_details.approved = 1
     campaign_details.pause = 0

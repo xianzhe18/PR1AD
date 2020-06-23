@@ -1,16 +1,17 @@
 import argparse
 import sys
 
-from adwords import models
-from adwords.get_client import get_client
 from google.ads.google_ads.client import GoogleAdsClient
 from google.ads.google_ads.errors import GoogleAdsException
+from .get_client import get_client
+from adwords import models
 
-
-def report_campaign(data):
+def ads_report(data):
+    m = models.ads_model.objects.get(model_id=data)
+    r = models.ads_report.objects.get(link=m)
+    group_name = m.ad_group_name
     client = get_client()
     customer_id = '5397526643'
-    
     ga_service = client.get_service('GoogleAdsService', version='v3')
 
     query = ('SELECT campaign.id, campaign.name, ad_group.id, ad_group.name, '
@@ -25,11 +26,10 @@ def report_campaign(data):
              'ORDER BY metrics.impressions DESC '
              'LIMIT 50')
 
+    # Issues a search request using streaming.
     response = ga_service.search_stream(customer_id, query)
     keyword_match_type_enum = client.get_type(
         'KeywordMatchTypeEnum', version='v2').KeywordMatchType
-    m = models.campaign.objects.get(model_id=data)
-    r = models.campaign_reports.objects.get(link=m)
     try:
         for batch in response:
             for row in batch.results:
@@ -50,12 +50,14 @@ def report_campaign(data):
                       f'{metrics.clicks.value} click(s), and '
                       f'{metrics.cost_micros.value} cost (in micros) during '
                       'the last 7 days.')
-                if campaign.id.value == m.campaign_id:
-                    r.cpm = metrics.impressions.value
-                    r.cpv = metrics.clicks.value
+                if {ad_group.name.value} == group_name:
+                    r.cpm = {metrics.impressions.value}
+                    r.cpv = {metrics.clicks.value}
+                    r.cost = {metrics.cost_micros.value}
                     r.save()
                 else:
                     pass
+
     except GoogleAdsException as ex:
         print(f'Request with ID "{ex.request_id}" failed with status '
               f'"{ex.error.code().name}" and includes the following errors:')
@@ -65,5 +67,4 @@ def report_campaign(data):
                 for field_path_element in error.location.field_path_elements:
                     print(f'\t\tOn field: {field_path_element.field_name}')
         sys.exit(1)
-    
     return r

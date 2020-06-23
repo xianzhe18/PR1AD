@@ -107,60 +107,17 @@
         </nav><Br>
         <div class="container">
             <div class="mx-auto text-center" style="padding: 30px;">
-                <h1><a style="font-weight: 500; color: black;" href="{% url 'home' %}">Campaign Details</a></h1>
+                <h1><a style="font-weight: 500; color: black;" href="{% url 'home' %}">Ads Group Details</a></h1>
                 <hr>
                 {% if e %}
                     <p>{{ e }}</p>
                 {% endif %}
-                <div class="campaigns mr-auto text-left">
+                <div class="ads_models mr-auto text-left">
                     <div class="row">
                         <div class="table_responsive" style="width: 70%;">
                             <form class="form">
                                 <table class="table">
                                     {% if c %}
-                                    <tr>
-                                        <td><p>Campaign Name:</p></td>
-                                        <td><b>{{ c.campaigns_name }}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td><p>Biddign Strategy:</p></td>
-                                        <td><b>{{ c.bidding_strategy }}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td><p>Budget Type :</p></td>
-                                        <td><b>{{ c.budget_type }}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td><p>Start Date :</p></td>
-                                        <td><b><time>{{ c.start_date }}</time></b></td>
-                                    </tr>
-                                    <tr>
-                                        <td><p>End Date :</p></td>
-                                        <td><b><time>{{ c.end_date }}</time></b></td>
-                                    </tr>
-                                    <tr>
-                                        <td><p>Networks :</p></td>
-                                        <td><b>
-                                            {% ifequal 1 c.youtube_search_results %}
-                                                Youtube Search Results,
-                                                {% ifequal 1 c.video_partners %}
-                                                    Video Partners,
-                                                {% endifequal %}
-                                            {% else %}
-                                                {% ifequal 1 c.video_partners %}
-                                                    Video Partners,
-                                                    {% ifequal 1 c.youtube_search_results %}
-                                                        Youtube Search Results,
-                                                    {% endifequal %}
-                                                {% endifequal %}
-                                            {% endifequal %}
-                                            Youtube Videos
-                                        </b></td>
-                                    </tr>
-                                    <tr>
-                                        <td><p>Inventory Types :</p></td>
-                                        <td><b><time>{{ c.inventory_types }}</time></b></td>
-                                    </tr>
                                     <tr>
                                         <td><p>Ad Group Name :</p></td>
                                         <td><b><time>{{ c.ad_group_name }}</time></b></td>
@@ -204,15 +161,15 @@
                         <button class="approved_btn btn btn-primary" style="color: white; font-weight: bolder;"><a>Approve</a></button>
                         {% endif %}
                         {% if c.pause == 1 %}
-                            <button class="enable_btn btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:enable_campaign' c_id=c.model_id %}">Enable</a></button>
+                            <button class="enable_btn btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:enable_ads_model' c_id=c.model_id %}">Enable</a></button>
                         {% else %}
-                            <button class="pause_btn btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:pause_campaign' c_id=c.model_id %}">Pause</a></button>
+                            <button class="pause_btn btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:pause_ads_model' c_id=c.model_id %}">Pause</a></button>
                         {% endif %}
-                        <button class="delete_btn btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:delete_campaign' c_id=c.model_id  %}">Delete</a></button>
-                        <button class="edit btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:edit_campaign' c_id=c.model_id %}">Edit</a></button>
+                        <button class="delete_btn btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:delete_ads_model' c_id=c.model_id  %}">Delete</a></button>
+                        <button class="edit btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:edit_ads_model' c_id=c.model_id %}">Edit</a></button>
                         <button class="edit btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:reports' c_id=c.model_id %}">Reports</a></button>
                     {% else %}
-                    <button class="edit btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:edit_campaign' c_id=c.model_id %}">Edit Campaign</a></button>
+                    <button class="edit btn btn-primary"><a style="text-decoration: none; color: white;" href="{% url 'adwords:edit_ads_model' c_id=c.model_id %}">Edit ads_model</a></button>
                     {% endif %}
                 </div>
                 <br><br><br>
@@ -221,7 +178,7 @@
     </body>
     <script>
         $('.approved_btn').click(function(){
-            window.location.href ="{% url 'adwords:approve_campaigns' c_id=c.model_id %}"
+            window.location.href ="{% url 'adwords:approve_ads_models' c_id=c.model_id %}"
         });
     </script>
     <div class="footer container mx-auto text-center" style="right: 0; left: 0; bottom: 0; position: relative;">

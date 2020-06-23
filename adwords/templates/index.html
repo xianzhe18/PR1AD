@@ -134,19 +134,19 @@
                     <button class="apply_btn btn btn-primary">Apply Here</button>
                 </div>
             </div><Br><Br>
-            <div class="col-md-12 your_campaigns mx-auto text-center">
-                {% if campaigns %}
+            <div class="col-md-12 your_ads_models mx-auto text-center">
+                {% if ads_models %}
                     <div class="table-responsive mx-auto text-center">
                         <table class="table mx-auto text-center">
                             <tr>
-                                <td><h5><b>Campaign Name</b></h5></td>
+                                <td><h5><b>ads_model Name</b></h5></td>
                                 <td>
                                     <h5><b>Status</b></h5>
                                 </td>
                             </tr>
-                            {% for c in campaigns %}
+                            {% for c in ads_models %}
                             <tr>
-                                <td><a href="{% url 'adwords:campaign_details' c_id=c.model_id %}">{{ c.campaigns_name }}</a></td>
+                                <td><a href="{% url 'adwords:ads_model_details' c_id=c.model_id %}">{{ c.ad_group_name }}</a></td>
                                 <td>
                                     {% if c.approved == 1 %}
                                         <span style="color: green;">Approved</span>
@@ -167,144 +167,6 @@
             <div class="ads_form mx-auto text-center" style="display: none;">
                 <h4 id="show_errors" style="color: red; font-weight: bolder;"></h4>
                 <form method="post" class="col-md-12 form mr-auto text-left">{% csrf_token %}
-                    <div class="form-group">
-                        <label for="name">Campaign Name</label>
-                        <input value="{{model.campaigns_name}}" required id="campaign_name" 
-                        name="campaign_name" 
-                        
-                        type="text" class="form-control" placeholder="Campaign name">
-                    </div><br>
-                    <div class="mr-auto">
-                        <label for="strategy">Bidding Strategy</label>
-                        <select id="strategy" 
-                        name="strategy" required class="custom-select bidding-strategy">
-
-                            <option selected value="Maximum CPV">Maximum CPV</option>
-                            <option value="Target CPM">Target CPM</option>
-                        </select>
-                    </div><Br>
-                    <div class="mr-auto">
-                        <label for="budgetdates">Enter budget type and amount</label>
-                        <select onchange="budget_data();" 
-                        name="budgetdates" required
-
-                         id="budgetdates" class="custom-select budget_dates">
-                            <option selected value="Daily">Daily</option>
-                            <option value="Campaign total">Campaign total</option>
-                        </select>
-                    </div><Br>
-                        <div class="col-md-12 start_end_form" style="display: none;">
-                            <div class="row">
-                                <div class="start" style="margin-left: 15px;">
-                                    <label for="start">Start Date</label>
-                                    <input 
-                                    name="startdate"
-                                     id="startdate" type="date" class="form-control"><Br>
-                                </div>
-                                <div class="end" style="margin-left: 15px;">
-                                    <label for="end">End Date</label>
-                                    <input 
-                                    name="enddate"
-                                    id="enddate" type="date" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <script>
-                            $(document).ready(function(){
-                                var today = new Date();
-                                $('#start').val(today.toISOString().substr(0, 10));
-                                $('#end').val(today.toISOString().substr(0, 10));
-                            });
-                        </script>
-                    <div class="mr-auto">
-                        <label for="networks">Networks</label><br>
-                        <div class="checkbox_con" style="margin-left: 15px;">
-                            <div class="form-check form-check-inline">
-                                <input 
-                                name="search_results" 
-                                class="form-check-input" type="checkbox" id="search_results" value="0">
-                                <label class="form-check-label" for="search_results">Youtube search results</label>
-                            </div><br><br>
-                            <div class="form-check form-check-inline">
-                                <input
-                                name="youtube_videos"  
-                                class="form-check-input" type="checkbox" id="youtube_videos" value="1" checked disabled>
-                                <label class="form-check-label" for="youtube_videos">Youtube Videos</label>
-                            </div><br><br>
-                            <div class="form-check form-check-inline">
-                                <input
-                                name="video_partners"  
-                                 class="form-check-input" type="checkbox" id="video_partners" value="1" checked>
-                                <label class="form-check-label" for="video_partners">Video partners</label>
-                            </div>
-                        </div>
-                    </div><br>
-                    <div class="form-group">
-                        <label for="languages">Languages</label>
-                        <div class="all_lang col-md-3">
-                            <p style="padding: 10px 20px 10px 20px; border-radius: 40px; background-color: rgb(224, 224, 224);"
-                            >All Languages</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="locations">Locations</label>
-                        <div class="all_lang col-md-3">
-                            <p style="padding: 10px 10px 10px 15px; border-radius: 40px; background-color: rgb(224, 224, 224);">
-                                All countries and territories</p>
-                        </div>
-                    </div><Br>
-                    <div class="mr-auto">
-                        <label for="inventory">Inventory Types (Select any for more details)</label>
-                        <div class="row" style="padding: 5px;">
-                            <div class="col-md-5 inventory_checkbox_con">
-                                <div class="form-check form-check-inline">
-                                    <input
-                                    name="expanded"
-                                     onclick="inventory_data('expanded', this);" class="form-check-input inv" type="checkbox" id="expanded" value="0">
-                                    <label class="form-check-label" for="expanded">Expanded Inventory</label>
-                                </div><br><br>
-                                <div class="form-check form-check-inline">
-                                    <input
-                                    name="standard"
-                                     onclick="inventory_data('standard', this);" class="form-check-input inv" type="checkbox" id="standard" value="0">
-                                    <label class="form-check-label" for="standard">Standard Inventory</label>
-                                </div><br><br>
-                                <div class="form-check form-check-inline">
-                                    <input
-                                    name="limited"
-                                     onclick="inventory_data('limited', this);" class="form-check-input inv" type="checkbox" id="limited" value="0">
-                                    <label class="form-check-label" for="limited">Limited Inventory</label>
-                                </div>
-                            </div><Br>
-                            <div class="col-md-7 inventory_details_con" style="">
-                                <div class="standard inventory_datas" style="display: none;">
-                                    <p class="standard" style="font-weight: bolder;">Show ads on content that’s appropriate for most brands</p>
-                                        <p style="line-height: 1rem;">
-                                            Same exclusions as Expanded, and also excludes, for example:<Br>
-                                        <li style="margin-left: 10px; list-style: none;">Repeated strong profanity</li>
-                                        <li style="margin-left: 10px; list-style: none;">Strong sexual content and discussions of sex</li>
-                                        <li style="margin-left: 10px; list-style: none;">Violence either real or dramatized</li>
-                                    </p>
-                                </div>
-                                <div class="expanded inventory_datas" style="display: none;">
-                                    <p class="expanded" style="font-weight: bolder;">Exclude most types of sensitive content and limit your available inventory</p>
-                                        <p style="line-height: 1rem;">Same exclusions as Expanded and Standard, and also excludes, for example:<Br>
-                                        <li style="margin-left: 10px;list-style: none;">Moderate profanity</li>
-                                        <li style="margin-left: 10px;list-style: none;">Moderate sexually suggestive content</li>
-                                    </p>
-                                </div>
-                                <div class="limited inventory_datas" style="display: none;">
-                                    <p class="limited" style="font-weight: bolder;">Maximize available inventory by showing ads on some sensitive content</p>
-                                        <p style="line-height: 1rem;">
-                                            Excludes extremely sensitive content, for example:<Br>
-                                        <li style="margin-left: 10px; list-style: none;">Excessive profanity</li>
-                                        <li style="margin-left: 10px; list-style: none;">Graphic sexual content and nudity</li>
-                                        <li style="margin-left: 10px; list-style: none;">Graphic violence and serious injury</li>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div><br>
                     <div class="ad-group">
                         <h4>Create your ad group</h4><br>
                         <div class="col-md-12">
@@ -334,7 +196,7 @@
                                     <span style="padding: 10px; border-radius: 40px; background-color: rgb(224, 224, 224);">
                                         Any keyword</span>
                                 </div><br>
-                                <span onclick="keywords();" style="cursor: pointer; font-weight: 900; color: blue;">Click here to add your keywords (Use Spaces Instead Of Commas)</span>
+                                <span onclick="keywords();" style="cursor: pointer; font-weight: 900; color: blue;">Click here to ad keywords</span>
                                 <textarea 
                                 name="keywords"
                                 class="col-md-6 form-control" style="display: none;" id="keywords" rows="5" placeholder="Paste your keywords here or leave blank"></textarea>
@@ -353,6 +215,7 @@
                                         Any Placement</span>
                                 </div>
                             </div><br>
+                            <h4>Create your ad group</h4><br>
                             <div class="form-group">
                                 <label>Maximum CPV bid</label>
                                 <input
@@ -385,8 +248,8 @@
 
                     </div>
                     <div class="mx-auto text-center">
-                        <!-- <button type="submit" disabled=True class="create_btn btn btn-primary" style="color: white;">CREATE CAMPAIGN</button> -->
-                        <button type="submit" class="create_btn btn btn-primary" style="color: white;">CREATE CAMPAIGN</button>
+                        <!-- <button type="submit" disabled=True class="create_btn btn btn-primary" style="color: white;">CREATE ads_model</button> -->
+                        <button type="submit" class="create_btn btn btn-primary" style="color: white;">CREATE ads_model</button>
                         <a href="">Cancel</a>
                     </div>
                     <br><Br>    
@@ -396,10 +259,10 @@
                 <script>
                     $(document).ready(function(){
                         $('.apply_menu').hide();
-                        $('.your_campaigns').hide();
+                        $('.your_ads_models').hide();
 
                         $('.ads_form').fadeIn();
-                        $('.create_btn').html('Update Campaign');
+                        $('.create_btn').html('Update ads_model');
                     });
                 </script>
             {% endif %}
@@ -427,20 +290,9 @@
                     var model_id = null;
                 }
                 $.ajax({
-                    url: "{% url 'adwords:create_campaign' %}",
+                    url: "{% url 'adwords:create_ads_model' %}",
                     data: {
                         model_id: model_id,
-                        campaign_name: $('#campaign_name').val(),
-                        strategy: $('#strategy').val(),
-                        budgetdates: $('#budgetdates').val(),
-                        startdate: $('#startdate').val(),
-                        enddate: $('#enddate').val(),
-                        search_results: $('#search_results').val(),
-                        youtube_videos: $('#youtube_videos').val(),
-                        video_partners: $('#video_partners').val(),
-                        expanded: $('#expanded').val(),
-                        standard: $('#standard').val(),
-                        limited: $('#limited').val(),
                         ad_name: $('#ad_name').val(),
                         keywords: $('#keywords').val(),
                         cpv_bid: $('#cpv_bid').val(),
@@ -485,25 +337,9 @@
             function keywords(){
                 $('#keywords').fadeIn();
             }
-            function inventory_data(txt, ele){
-                $('.inventory_datas').hide();
-                $('.inv').prop("checked", false);
-                $(ele).val(1);
-                $(ele).prop("checked", true);
-                if (txt == 'standard'){
-                    $('.standard').fadeIn();
-                }
-                else if(txt == 'expanded'){
-                    $('.expanded').fadeIn();
-                }
-                else{
-                    $('.limited').fadeIn();
-                }
-
-            }
             $('.apply_btn').click(function(){
                 $('.apply_menu').hide();
-                $('.your_campaigns').hide();
+                $('.your_ads_models').hide();
 
                 $('.ads_form').fadeIn();
             });

@@ -45,7 +45,7 @@
                         <li><a href="{% url 'home' %}">Home</a></li>
                         <li><a href="{% url 'about' %}">Company</a></li>
                         {% if user.is_superuser %}
-                            <li><a href="{% url 'adwords:all_campaigns' %}">Adwords Panel</a></li>
+                            <li><a href="{% url 'adwords:all_ads_models' %}">Adwords Panel</a></li>
                         {% elif user.is_authenticated %}
                             
                         {% endif %}

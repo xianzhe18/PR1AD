@@ -10,6 +10,12 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu&family=Dancing+Script:wght@300&display=swap" rel="stylesheet">
         <style>
+            a{
+                text-decoration: none;
+            }
+            a:hover{
+                text-decoration: none;
+            }
             body{
                 background: white;
                 font-family: 'Ubuntu' !important;
@@ -66,49 +72,11 @@
             }
         </style>
     </head>
-    <style>
-        .select1:hover{
-            transition: ease 1s;
-            border: none !important;
-            background-color: rgb(241, 241, 241);
-        }
-        .select2:hover{
-            transition: ease 1s;
-            border: none !important;
-            background-color: rgb(241, 241, 241);
-        }
-        @media(max-width: 1200px){
-            .ads_box{
-                top: 180px !important;
-                padding: 10px 100px 10px 100px !important;
-            }
-        }
-        @media(max-width: 995px){
-            .ads_box{
-                top: 140px !important;
-                padding: 0px 60px 0px 60px !important;
-            }
-        }
-        @media(max-width:730px){
-            .ads_box{
-                top: 140px !important;
-                padding: 0px 70px 0px 70px !important;
-            }
-            .google_ads_txt{
-                font-size: 1rem !important;
-            }
-            .ads_box_con{
-                display: none !important;
-            }
-        }
-        a:hover{
-            text-decoration: none;
-        }
-    </style>
     <body>
-        <nav class="col-md-12 navbar navbar-expand-lg" style="background: blue; z-index: 3;">
+        <nav class="col-md-12 navbar navbar-expand-lg" style="background: blue; z-index: 2000;">
             <button class="navbar-toggler" type="button" style="border: none; outline: none;" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span style="color: white; padding-top: 5px; z-index: 4;" class="navbar-toggler-icon"></span>
+              <!-- <span class="navbar-toggler-icon"></span> -->
+              <i style="color: white; padding-top: 5px;" class="fas fa-bars"></i>
             </button>
           
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -125,45 +93,56 @@
               </ul>
             </div>
         </nav><Br>
-            <h1>ADS CREATION</h1>
-            <h3 class="error"></h3>
-            <h3 class="success"></h3>
+        <div class="container">
+            <div class="mx-auto text-center" style="padding: 30px;">
+                <h1><a style="font-weight: 500; color: black;" href="{% url 'home' %}">Adword Panel</a></h1>
+                <hr><Br>
+                <div class="ads_models mr-auto text-left">
+                    <div class="mr-auto text-left container">
+                        {% if ads_models %}
+                            <h4>ads_models - Pending</h4>
+                            {% for c in ads_models %}
+                                {% if c.pause != 1 %}
+                                    {% if c.approved == 0 %}
+                                        <div style="margin: 5px;"><a href="{% url 'adwords:ads_model_details' c_id=c.model_id %}">{{ c.ad_group_name }}</a></div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <p>No Pending ads_models</p>
+                        {% endif %}
+                    </div>
+                    <div class="mr-auto text-left container">
+                        {% if ads_models %}
+                            <Br><h4>ads_models - Running</h4>
+                            {% for c in ads_models %}
+                                {% ifequal 1 c.approved %}
+                                <div style="margin: 5px;"><a href="{% url 'adwords:ads_model_details' c_id=c.model_id %}">{{ c.ad_group_name }}</a></div>
+                                {% endifequal %}
+                            {% endfor %}
+                        {% else %}
+                            <p>No Running ads_models</p>
+                        {% endif %}
+                    </div>
+                    <div class="mr-auto text-left container">
+                        {% if ads_models %}
+                            <Br><h4>ads_models - Paused</h4>
+                            {% for c in ads_models %}
+                                {% ifequal 1 c.pause %} 
+                                <div style="margin: 5px;"><a href="{% url 'adwords:ads_model_details' c_id=c.model_id %}">{{ c.ad_group_name }}</a></div>
+                                {% endifequal %}
+                            {% endfor %}
+                        {% else %}
+                            <p>No Paused ads_models</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-        <script>
-        </script>
         <div class="footer container mx-auto text-center" style="right: 0; left: 0; bottom: 0; position: relative;">
             <hr>
             <p>Copyright  &copy;  2020 PR1AD.com | Powered by Perfection</p>
          </div>
-
-         <script>
-
-        var videoAd = videoAdGroup.newVideoAd()
-            .inStreamAdBuilder()
-            .withAdName("Video Ad")
-            .withFinalUrl(
-                "https://youtu.be/tkfwqGa5UrM")
-            .withVideo(video)
-            .build()
-            .getResult();
-        console.log(videoAd);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-         </script>
     </body>
 </html>

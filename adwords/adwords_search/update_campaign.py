@@ -15,13 +15,13 @@ def update_campaign(data):
     client = get_client()
     customer_id = '5397526643'
     m = models.campaign.objects.get(model_id=data)
-    campaign_id = m.campaign_id
+    ads_model = m.ads_model
 
     campaign_service = client.get_service('CampaignService', version='v3')
     campaign_operation = client.get_type('CampaignOperation', version='v3')
     campaign = campaign_operation.update
     campaign.resource_name = campaign_service.campaign_path(
-        customer_id, campaign_id)
+        customer_id, ads_model)
     campaign.status = client.get_type('CampaignStatusEnum', version='v3').ENABLED
     campaign.network_settings.target_search_network.value = False
 
